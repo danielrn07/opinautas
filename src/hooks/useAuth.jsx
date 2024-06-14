@@ -1,6 +1,11 @@
-import { database } from '../services/firebase'
+import { database, auth } from '../services/firebase'
 
-import { createUserWithEmailAndPassword, getAuth, signOut, updateProfile } from 'firebase/auth'
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  updateProfile,
+} from 'firebase/auth'
 
 import { useEffect, useState } from 'react'
 
@@ -9,7 +14,6 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(null)
   const [cancelled, setCancelled] = useState(false)
 
-  const auth = getAuth()
 
   const checkIfIsCancelled = () => cancelled
 
@@ -44,6 +48,30 @@ export const useAuth = () => {
     }
   }
 
+  const login = async (data) => {
+    checkIfIsCancelled()
+    setLoading(true)
+    setError(null)
+
+    try {
+      await signInWithEmailAndPassword(auth, data.email, data.password)
+    } catch (error) {
+      let systemErrorMessage
+      const errorMessage = error.message.toLowerCase()
+      console.log(errorMessage)
+
+      if (errorMessage.includes('auth/invalid-credential')) {
+        systemErrorMessage = 'E-mail e/ou senha inválidos.'
+      } else {
+        systemErrorMessage = 'Ocorreu um erro. Tente novamente mais tarde.'
+      }
+
+      setError(systemErrorMessage)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const logout = async () => {
     checkIfIsCancelled()
     setLoading(true)
@@ -62,5 +90,5 @@ export const useAuth = () => {
     return () => setCancelled(true)
   }, [])
 
-  return { auth, createUser, error, loading, logout }
+  return { auth, createUser, login, logout, error, loading }
 }

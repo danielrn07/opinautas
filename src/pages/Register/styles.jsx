@@ -19,8 +19,4 @@ export const FormContainer = styled.div`
     font-size: 1.6rem;
     font-weight: 600;
   }
-
-  p {
-    color: red;
-  }
 `

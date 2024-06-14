@@ -8,13 +8,14 @@ const Register = () => {
   const [error, setError] = useState(null)
   const { createUser, error: authError, loading } = useAuth()
 
-
   const SignUpSchema = Yup.object({
     name: Yup.string()
       .min(2, 'Nome muito curto.')
       .max(50, 'Nome muito longo')
       .required('Campo obrigatório.'),
-    email: Yup.string().email('E-mail inválido.').required('Campo obrigatório.'),
+    email: Yup.string()
+    .email('E-mail inválido.')
+    .required('Campo obrigatório.'),
     password: Yup.string()
       .min(8, 'Senha muito curta.')
       .required('Campo obrigatório.')
@@ -33,8 +34,8 @@ const Register = () => {
       email: values.email,
       password: values.password
     }
+
     const res = await createUser(user)
-    console.log(res)
   }
 
   useEffect(() => {
@@ -43,7 +44,6 @@ const Register = () => {
 
   return (
     <Formik
-      enableReinitialize
       initialValues={{
         name: '',
         email: '',
@@ -52,8 +52,8 @@ const Register = () => {
       }}
       validationSchema={SignUpSchema}
       onSubmit={( values, { resetForm, setSubmiting }) => {
-        handleSubmit(values)        
-        resetForm()
+        handleSubmit(values)
+        !error && resetForm()
       }}
     >
       <FormContainer>
@@ -61,28 +61,28 @@ const Register = () => {
           <label>
             <span>Nome</span>
             <Field type='text' name='name' placeholder='Digite seu nome' />
-            <ErrorMessage name='name' component='p' />
+            <ErrorMessage name='name' className='error-message' component='p' />
           </label>
 
           <label>
             <span>E-mail</span>
             <Field type='email' name='email' placeholder='Digite seu e-mail' />
-            <ErrorMessage name='email' component='p' />
+            <ErrorMessage name='email' className='error-message' component='p' />
           </label>
 
           <label>
             <span>Senha</span>
             <Field type='password' name='password' placeholder='Digite sua senha' />
-            <ErrorMessage name='password' component='p' />
+            <ErrorMessage name='password' className='error-message' component='p' />
           </label>
 
           <label>
             <span>Confirmar senha</span>
             <Field type='password' name='confirmPassword' placeholder='Confirme sua senha' />
-            <ErrorMessage name='confirmPassword' component='p' />
+            <ErrorMessage name='confirmPassword' className='error-message' component='p' />
           </label>
 
-          <button onSubmit={handleSubmit} type='submit'>{!loading ? 'Cadastrar' : 'Carregando...'}</button>
+          <button type='submit'>{!loading ? 'Cadastrar' : 'Carregando...'}</button>
           {error}
         </Form>
       </FormContainer>
