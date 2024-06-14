@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from 'firebase/auth'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import { useEffect, useState } from 'react'
 import { useAuth } from './hooks/useAuth'
@@ -34,8 +34,8 @@ function App() {
         <div className='container'>
           <Routes>
             <Route path='/' element={<Home />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
+            <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
           </Routes>
         </div>
       </BrowserRouter>

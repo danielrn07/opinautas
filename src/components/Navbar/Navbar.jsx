@@ -6,9 +6,12 @@ import { NavLink } from 'react-router-dom'
 import { LoginButtonContainer, UserProfileImage, Logo, NavbarContainer, PageTitle } from './styles'
 
 import { useAuthValue } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/useAuth'
 
 const Navbar = () => {
   const { user } = useAuthValue()
+  const { logout } = useAuth()
+  
   return (
     <NavbarContainer>
       <NavLink to='/'>
@@ -26,6 +29,7 @@ const Navbar = () => {
         <>
           <PiPlus size={24} />
           <UserProfileImage />
+          <span onClick={logout}>Sair</span>
         </>
       )}
     </NavbarContainer>

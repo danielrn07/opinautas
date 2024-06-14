@@ -1,6 +1,6 @@
 import { database } from '../services/firebase'
 
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth'
+import { createUserWithEmailAndPassword, getAuth, signOut, updateProfile } from 'firebase/auth'
 
 import { useEffect, useState } from 'react'
 
@@ -11,10 +11,10 @@ export const useAuth = () => {
 
   const auth = getAuth()
 
-  const checkIsIsCancelled = () => cancelled
+  const checkIfIsCancelled = () => cancelled
 
   const createUser = async (data) => {
-    checkIsIsCancelled()
+    checkIfIsCancelled()
     setLoading(true)
     setError(null)
 
@@ -44,9 +44,23 @@ export const useAuth = () => {
     }
   }
 
+  const logout = async () => {
+    checkIfIsCancelled()
+    setLoading(true)
+    setError(null)
+
+    try {
+      await signOut(auth)
+    } catch (error) {
+      setError('Ocorreu um erro. Tente novamente mais tarde.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
     return () => setCancelled(true)
   }, [])
 
-  return { auth, createUser, error, loading }
+  return { auth, createUser, error, loading, logout }
 }
