@@ -23,3 +23,9 @@ export const UserProfileImage = styled.img`
   border-radius: 50%;
   background-color: red;
 `
+
+export const LoginButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+`

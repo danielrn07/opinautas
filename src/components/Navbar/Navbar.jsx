@@ -1,7 +1,7 @@
+import { HiOutlineUser } from 'react-icons/hi2'
+import { PiPlus } from 'react-icons/pi';
 import { NavLink } from 'react-router-dom'
-import { NavbarContainer, Logo, UserProfileImage, PageTitle } from './styles'
-import { PiPlus } from "react-icons/pi";
-
+import { LoginButtonContainer, Logo, NavbarContainer, PageTitle } from './styles'
 
 const Navbar = () => {
   return (
@@ -10,8 +10,21 @@ const Navbar = () => {
         <Logo>O</Logo>
       </NavLink>
       <PageTitle>Explorar</PageTitle>
-      <PiPlus size={24} />
-      <UserProfileImage />
+
+      {/* <div>
+        <PiPlus size={24} />
+        <UserProfileImage />
+      </div> */}
+      <NavLink to='/login'>
+        <LoginButtonContainer>
+          <HiOutlineUser size={24} />
+          <p>
+            Entre ou
+            <br />
+            Cadastre-se
+          </p>
+        </LoginButtonContainer>
+      </NavLink>
     </NavbarContainer>
   )
 }
