@@ -36,6 +36,8 @@ const Register = () => {
     }
 
     const res = await createUser(user)
+
+    !error && resetForm()
   }
 
   useEffect(() => {
@@ -51,9 +53,8 @@ const Register = () => {
         confirmPassword: '',
       }}
       validationSchema={SignUpSchema}
-      onSubmit={( values, { resetForm, setSubmiting }) => {
-        handleSubmit(values)
-        !error && resetForm()
+      onSubmit={( values, { resetForm }) => {
+        handleSubmit(values, resetForm)
       }}
     >
       <FormContainer>

@@ -31,7 +31,9 @@ const Navbar = () => {
         </NavLink>
       ) : (
         <>
-          <PiPlus size={24} />
+          <NavLink to='/submit'>
+            <PiPlus size={24} />
+          </NavLink>
           <UserProfileImage />
           <span onClick={logout}>Sair</span>
         </>

@@ -22,6 +22,8 @@ const Login = () => {
     }
 
     const res = await login(user)
+
+    !error && resetForm()
   }
 
   useEffect(() => {
@@ -36,8 +38,7 @@ const Login = () => {
       }}
       validationSchema={SignInSchema}
       onSubmit={(values, { resetForm }) => {
-        handleSubmit(values)
-        !error && resetForm()
+        handleSubmit(values, resetForm)
       }}
     >
       <FormContainer>

@@ -10,6 +10,7 @@ import Navbar from './components/Navbar/Navbar'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
+import CreatePost from './pages/CreatePost/CreatePost'
 
 function App() {
   const [user, setUser] = useState(undefined)
@@ -36,6 +37,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
             <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
+            <Route path='/submit' element={user ? <CreatePost /> : <Navigate to='/login' />} />
           </Routes>
         </div>
       </BrowserRouter>
