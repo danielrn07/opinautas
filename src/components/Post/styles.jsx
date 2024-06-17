@@ -31,6 +31,7 @@ export const Description = styled.p`
 export const TagsContainer = styled.div`
   display: flex;
   gap: 0.8rem;
+  flex-wrap: wrap;
 `
 
 export const Tag = styled.p`
