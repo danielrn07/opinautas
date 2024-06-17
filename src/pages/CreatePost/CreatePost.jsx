@@ -18,7 +18,7 @@ const CreatePost = () => {
     title: Yup.string().max(100, 'Título muito longo.'),
     description: Yup.string()
       .min(10, 'Descrição muito curta.')
-      .max(1000, 'Descrição muito longa.')
+      .max(2000, 'Descrição muito longa.')
       .required('Campo obrigatório.'),
   })
 

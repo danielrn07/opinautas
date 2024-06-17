@@ -1,5 +1,11 @@
+import PostList from "../../components/PostList/PostList"
+import { useFetchDocument } from "../../hooks/useFetchDocuments"
+
 const Home = () => {
-  return <h1>Home</h1>
+  const { documents: posts, loading, error } = useFetchDocument('posts')
+  return (
+    <PostList posts={posts} />
+  )
 }
 
 export default Home
