@@ -11,6 +11,7 @@ import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 import CreatePost from './pages/CreatePost/CreatePost'
+import SinglePost from './pages/SinglePost/SinglePost'
 
 function App() {
   const [user, setUser] = useState(undefined)
@@ -38,6 +39,7 @@ function App() {
             <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
             <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
             <Route path='/submit' element={user ? <CreatePost /> : <Navigate to='/login' />} />
+            <Route path='/:id' element={<SinglePost />} />
           </Routes>
         </div>
       </BrowserRouter>

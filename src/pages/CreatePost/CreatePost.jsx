@@ -22,16 +22,16 @@ const CreatePost = () => {
       .required('Campo obrigatório.'),
   })
 
-  const handleSubmit = (values, resetForm) => {    
-    const tagsArray = []
-    if (values.tags.length > 0) {
-      tagsArray = values.tags.split(',').map((tag) => tag.trim().toLowerCase())
+  const handleSubmit = (values, resetForm) => {
+    let tags = []
+    if (values.tags) {
+      tags = values.tags.split(',').map((tag) => tag.trim().toLowerCase())
     }
 
     insertDocument({
       title: values.title,
       description: values.description,
-      tags: tagsArray,
+      tags,
       uid: user.uid,
       createdBy: user.displayName,
       comments: [],
@@ -49,7 +49,7 @@ const CreatePost = () => {
       initialValues={{
         title: '',
         description: '',
-        tags: [],
+        tags: '',
       }}
       validationSchema={CreatePostSchema}
       onSubmit={(values, { resetForm }) => {

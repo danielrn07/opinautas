@@ -1,12 +1,11 @@
-import Post from "../Post/Post"
+import Post from '../Post/Post'
+import { PostListContainer } from './styles'
 
 const PostList = ({ posts }) => {
   return (
-    <div>
-      {posts && posts.map((post) => (
-        <Post key={post.id} post={post} />
-      ))}
-    </div>
+    <PostListContainer>
+      {posts && posts.map((post) => <Post key={post.id} post={post} />)}
+    </PostListContainer>
   )
 }
 

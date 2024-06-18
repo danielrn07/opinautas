@@ -22,6 +22,7 @@ import {
 } from './styles'
 
 import { doc, getDoc } from 'firebase/firestore'
+import { Link } from 'react-router-dom'
 import { useAuthValue } from '../../context/AuthContext'
 import { useSubmit } from '../../hooks/useSubmit'
 import { database } from '../../services/firebase'
@@ -64,7 +65,9 @@ const Post = ({ post }) => {
     }
   }
 
-  const handleLike = async () => {
+  const handleLike = async (e) => {
+    e.stopPropagation()
+    e.preventDefault()
     if (!user) {
       setError('Você precisa estar logado para realizar esta ação.')
       return
@@ -80,7 +83,9 @@ const Post = ({ post }) => {
     }
   }
 
-  const handleDislike = async () => {
+  const handleDislike = async (e) => {
+    e.stopPropagation()
+    e.preventDefault()
     if (!user) {
       setError('Você precisa estar logado para realizar esta ação.')
       return
@@ -97,7 +102,7 @@ const Post = ({ post }) => {
   }
 
   return (
-    <PostContainer>
+    <PostContainer as={Link} to={post.id}>
       <UserInfoContainer>
         <UserProfileImage />
         <UserName>{`${userName[0]} ${userName[1]}`}</UserName>

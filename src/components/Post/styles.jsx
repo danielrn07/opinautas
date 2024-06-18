@@ -6,10 +6,9 @@ export const PostContainer = styled.div`
   gap: 0.8rem;
   background-color: rgb(255, 255, 255);
   border-radius: 4px;
-  margin-bottom: 0.8rem;
   padding: 1.6rem;
   font-size: 1.4rem;
-  cursor: pointer;
+  color: inherit;
 
   span {
     display: flex;
