@@ -22,13 +22,16 @@ const CreatePost = () => {
       .required('Campo obrigatório.'),
   })
 
-  const handleSubmit = (values, resetForm) => {
-    const tags = values.tags.split(',').map((tag) => tag.trim().toLowerCase())
+  const handleSubmit = (values, resetForm) => {    
+    const tagsArray = []
+    if (values.tags.length > 0) {
+      tagsArray = values.tags.split(',').map((tag) => tag.trim().toLowerCase())
+    }
 
     insertDocument({
       title: values.title,
       description: values.description,
-      tags,
+      tags: tagsArray,
       uid: user.uid,
       createdBy: user.displayName,
       comments: [],

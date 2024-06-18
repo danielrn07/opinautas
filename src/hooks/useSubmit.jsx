@@ -99,9 +99,34 @@ export const useSubmit = (docCollection) => {
     }
   }
 
+  const toggleDislike = async (postId, userId) => {
+    checkCancelBeforeDispatch({
+      type: 'LOADING',
+    })
+    
+    const postRef = doc(database, docCollection, postId)
+    const dislikeRef = doc(postRef, 'dislikes', userId)
+
+    try {
+      const dislikeDoc = await getDoc(dislikeRef)
+
+      if (dislikeDoc.exists()) {
+        await deleteDoc(dislikeRef)
+        await updateDoc(postRef, { dislikes: increment(-1) })
+      } else {
+        await setDoc(dislikeRef, { userId, createdAt: Timestamp.now() })
+        await updateDoc(postRef, { dislikes: increment(1) })
+      }
+
+      checkCancelBeforeDispatch({ type: 'SUBMITTED' })
+    } catch (error) {
+      checkCancelBeforeDispatch({ type: 'ERROR', payload: error.message })
+    }
+  }
+
   useEffect(() => {
     return () => setCancelled(true)
   }, [])
 
-  return { insertDocument, toggleLike, response }
+  return { insertDocument, toggleLike, toggleDislike, response }
 }

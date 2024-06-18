@@ -21,10 +21,10 @@ import {
   UserProfileImage,
 } from './styles'
 
-import { useAuthValue } from '../../context/AuthContext'
-import { database } from '../../services/firebase'
 import { doc, getDoc } from 'firebase/firestore'
+import { useAuthValue } from '../../context/AuthContext'
 import { useSubmit } from '../../hooks/useSubmit'
+import { database } from '../../services/firebase'
 
 const Post = ({ post }) => {
   const [like, setLike] = useState(false)
@@ -33,13 +33,15 @@ const Post = ({ post }) => {
 
   const userName = post.createdBy.split(' ')
 
-  const { toggleLike, response } = useSubmit('posts')
-  console.log(response)
+  const { toggleLike, toggleDislike, response } = useSubmit('posts')
 
   const { user } = useAuthValue()
 
   useEffect(() => {
-    if (user) checkUserLike()      
+    if (user) {
+      checkUserLike()
+      checkUserDislike()
+    }
   }, [])
 
   const checkUserLike = async () => {
@@ -47,6 +49,16 @@ const Post = ({ post }) => {
       const postsRef = doc(database, 'posts', post.id, 'likes', user.uid)
       const likeDoc = await getDoc(postsRef)
       setLike(likeDoc.exists())
+    } catch (error) {
+      setError('Ocorreu um erro. Tente novamente mais tarde.')
+    }
+  }
+
+  const checkUserDislike = async () => {
+    try {
+      const postsRef = doc(database, 'posts', post.id, 'dislikes', user.uid)
+      const dislikeDoc = await getDoc(postsRef)
+      setDislike(dislikeDoc.exists())
     } catch (error) {
       setError('Ocorreu um erro. Tente novamente mais tarde.')
     }
@@ -61,8 +73,10 @@ const Post = ({ post }) => {
     await toggleLike(post.id, user.uid)
 
     setLike(!like)
+
     if (dislike) {
       setDislike(false)
+      await toggleDislike(post.id, user.uid)
     }
   }
 
@@ -75,13 +89,15 @@ const Post = ({ post }) => {
     await toggleDislike(post.id, user.uid)
 
     setDislike(!dislike)
+
     if (like) {
       setLike(false)
+      await toggleLike(post.id, user.uid)
     }
   }
 
   return (
-    <PostContainer>     
+    <PostContainer>
       <UserInfoContainer>
         <UserProfileImage />
         <UserName>{`${userName[0]} ${userName[1]}`}</UserName>
@@ -106,7 +122,7 @@ const Post = ({ post }) => {
 
           <span onClick={handleDislike}>
             {!dislike ? <PiHeartBreak size={24} /> : <PiHeartBreakFill color='purple' size={24} />}
-            {post.dislikes}
+            {user && post.uid === user.uid && <span>{post.dislikes}</span>}
           </span>
 
           <span>
