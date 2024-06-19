@@ -22,19 +22,24 @@ import {
 } from './styles'
 
 import { doc, getDoc } from 'firebase/firestore'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useAuthValue } from '../../context/AuthContext'
+import { useFetchDocuments } from '../../hooks/useFetchDocuments'
 import { useSubmit } from '../../hooks/useSubmit'
 import { database } from '../../services/firebase'
 
 const Post = ({ post }) => {
+  const { id } = useParams()
+
   const [like, setLike] = useState(false)
   const [dislike, setDislike] = useState(false)
   const [error, setError] = useState(null)
 
   const userName = post.createdBy.split(' ')
 
-  const { toggleLike, toggleDislike, response } = useSubmit('posts')
+  const { toggleLike, toggleDislike, response } = useSubmit('posts', true)
+
+  const { documents: comments } = useFetchDocuments(`posts/${post.id}/comments`)
 
   const { user } = useAuthValue()
 
@@ -102,7 +107,7 @@ const Post = ({ post }) => {
   }
 
   return (
-    <PostContainer as={Link} to={post.id}>
+    <PostContainer as={!id ? Link : ''} to={!id ? post.id : ''}>
       <UserInfoContainer>
         <UserProfileImage />
         <UserName>{`${userName[0]} ${userName[1]}`}</UserName>
@@ -122,7 +127,7 @@ const Post = ({ post }) => {
         <StatisticsContainer>
           <span onClick={handleLike}>
             {!like ? <PiHeart size={24} /> : <PiHeartFill color='red' size={24} />}
-            {post.likes}
+            <span>{post.likes}</span>
           </span>
 
           <span onClick={handleDislike}>
@@ -132,7 +137,7 @@ const Post = ({ post }) => {
 
           <span>
             <PiChatTeardropDots size={24} />
-            {post.comments.length}
+            <span>{comments && comments.length}</span>
           </span>
 
           <PiBookmarkSimple className='bookmark-icon' size={24} />

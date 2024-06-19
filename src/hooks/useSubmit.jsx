@@ -61,7 +61,7 @@ export const useSubmit = (docCollection) => {
         createdAt: Timestamp.now(),
       }
       const submittedDocument = await addDoc(collection(database, docCollection), newDocument)
-
+      
       checkCancelBeforeDispatch({
         type: 'SUBMITTED',
         payload: submittedDocument,
@@ -124,30 +124,9 @@ export const useSubmit = (docCollection) => {
     }
   }
 
-  const addComment = async (postId, userId, displayName, comment) => {
-    checkCancelBeforeDispatch({
-      type: 'LOADING',
-    })
-
-    const commentsRef = collection(database, docCollection, postId, 'comments')
-
-    try {
-      await addDoc(commentsRef, {
-        createdBy: displayName,
-        text: comment,
-        userId,
-        createdAt: Timestamp.now(),
-      })
-
-      checkCancelBeforeDispatch({ type: 'SUBMITTED' })
-    } catch (error) {
-      checkCancelBeforeDispatch({ type: 'ERROR', payload: error.message })
-    }
-  }
-
   useEffect(() => {
     return () => setCancelled(true)
   }, [])
 
-  return { insertDocument, toggleLike, toggleDislike, addComment, response }
+  return { insertDocument, toggleLike, toggleDislike, response }
 }

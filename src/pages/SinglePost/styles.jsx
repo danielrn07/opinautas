@@ -24,3 +24,17 @@ export const Button = styled.button`
   align-self: flex-end;
   width: 100%;
 `
+
+export const Comment = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  background-color: rgb(255, 255, 255);
+  font-size: 1.4rem;
+  padding: 1.6rem;
+
+  span {
+    font-weight: 600;
+  }
+`

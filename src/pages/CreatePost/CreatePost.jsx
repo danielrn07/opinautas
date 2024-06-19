@@ -34,7 +34,6 @@ const CreatePost = () => {
       tags,
       uid: user.uid,
       createdBy: user.displayName,
-      comments: [],
       likes: 0,
       dislikes: 0,
     })

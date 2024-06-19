@@ -5,15 +5,17 @@ import * as Yup from 'yup'
 import Post from '../../components/Post/Post'
 import { useAuthValue } from '../../context/AuthContext'
 import { useFetchDocument } from '../../hooks/useFetchDocument'
+import { useFetchDocuments } from '../../hooks/useFetchDocuments'
 import { useSubmit } from '../../hooks/useSubmit'
-import { Button, SinglePostContainer } from './styles'
+import { Button, Comment, SinglePostContainer } from './styles'
 
 const SinglePost = () => {
   const { id } = useParams()
   const { document: post } = useFetchDocument('posts', id)
   const { user } = useAuthValue()
 
-  const { addComment, response } = useSubmit('posts')
+  const { insertDocument, response } = useSubmit(`posts/${id}/comments`)
+  const { documents: comments } = useFetchDocuments(`posts/${id}/comments`)
 
   const [error, setError] = useState('')
 
@@ -22,7 +24,18 @@ const SinglePost = () => {
   })
 
   const handleSubmit = async (values, resetForm) => {
-    await addComment(id, user.uid, user.displayName, values.comment)
+    if (!user) {
+      setError('Você precisa estar logado para realizar esta ação.')
+      return
+    }
+
+    const comment = {
+      createdBy: user.displayName,
+      text: values.comment,
+      userId: user.uid,
+    }
+
+    await insertDocument(comment)
 
     !error && resetForm()
   }
@@ -53,11 +66,20 @@ const SinglePost = () => {
                   name='comment'
                   placeholder='Adicione um comentário'
                 />
-                <ErrorMessage name='comment' className='error-message' component='p' />
+                {<span className='error-message'>{error}</span> || (
+                  <ErrorMessage name='comment' className='error-message' component='p' />
+                )}
                 <Button type='submit'>Comentar</Button>
               </Form>
             )}
           </Formik>
+          {comments &&
+            comments.map((comment, index) => (
+              <Comment key={index}>
+                <span>{comment.createdBy}</span>
+                <p>{comment.text}</p>
+              </Comment>
+            ))}
         </>
       )}
     </SinglePostContainer>
