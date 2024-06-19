@@ -1,21 +1,21 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik'
-import * as Yup from 'yup'
-import { FormContainer } from './styles'
-import { useAuth } from '../../hooks/useAuth'
 import { useEffect, useState } from 'react'
+import * as Yup from 'yup'
+import { useAuth } from '../../hooks/useAuth'
+import { useSubmit } from '../../hooks/useSubmit'
+import { FormContainer } from './styles'
 
 const Register = () => {
   const [error, setError] = useState(null)
   const { createUser, error: authError, loading } = useAuth()
+  const { insertDocument } = useSubmit('users')
 
   const SignUpSchema = Yup.object({
     name: Yup.string()
       .min(2, 'Nome muito curto.')
       .max(50, 'Nome muito longo')
       .required('Campo obrigatório.'),
-    email: Yup.string()
-    .email('E-mail inválido.')
-    .required('Campo obrigatório.'),
+    email: Yup.string().email('E-mail inválido.').required('Campo obrigatório.'),
     password: Yup.string()
       .min(8, 'Senha muito curta.')
       .required('Campo obrigatório.')
@@ -28,14 +28,20 @@ const Register = () => {
       .required('Campo obrigatório.'),
   })
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, resetForm) => {
     const user = {
       name: values.name,
       email: values.email,
-      password: values.password
+      password: values.password,
     }
 
-    await createUser(user)
+    const firebaseUser = await createUser(user)
+
+    await insertDocument({
+      uid: firebaseUser.uid,
+      name: user.name,
+      points: 0,
+    })
 
     !error && resetForm()
   }
@@ -53,7 +59,7 @@ const Register = () => {
         confirmPassword: '',
       }}
       validationSchema={SignUpSchema}
-      onSubmit={( values, { resetForm }) => {
+      onSubmit={(values, { resetForm }) => {
         handleSubmit(values, resetForm)
       }}
     >

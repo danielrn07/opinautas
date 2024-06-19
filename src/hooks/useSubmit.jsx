@@ -61,12 +61,14 @@ export const useSubmit = (docCollection) => {
         createdAt: Timestamp.now(),
       }
       const submittedDocument = await addDoc(collection(database, docCollection), newDocument)
-      
+
       checkCancelBeforeDispatch({
         type: 'SUBMITTED',
         payload: submittedDocument,
       })
+      console.log('enviado', submittedDocument)
     } catch (error) {
+      console.log(error)
       checkCancelBeforeDispatch({
         type: 'ERROR',
         payload: error.message,
