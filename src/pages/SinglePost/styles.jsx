@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const SinglePostContainer = styled.div`
+export const PostContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;

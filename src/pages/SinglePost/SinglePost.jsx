@@ -7,7 +7,7 @@ import { useAuthValue } from '../../context/AuthContext'
 import { useFetchDocument } from '../../hooks/useFetchDocument'
 import { useFetchDocuments } from '../../hooks/useFetchDocuments'
 import { useSubmit } from '../../hooks/useSubmit'
-import { Button, Comment, SinglePostContainer } from './styles'
+import { Button, Comment, PostContainer } from './styles'
 
 const SinglePost = () => {
   const { id } = useParams()
@@ -45,7 +45,7 @@ const SinglePost = () => {
   }, [response.error])
 
   return (
-    <SinglePostContainer>
+    <PostContainer className='container'>
       {post && (
         <>
           <Post post={post} />
@@ -82,7 +82,7 @@ const SinglePost = () => {
             ))}
         </>
       )}
-    </SinglePostContainer>
+    </PostContainer>
   )
 }
 

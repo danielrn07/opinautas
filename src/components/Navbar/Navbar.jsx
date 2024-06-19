@@ -1,22 +1,35 @@
 import { HiOutlineUser } from 'react-icons/hi2'
-import { PiPlus } from 'react-icons/pi'
+import { PiList, PiPlus } from 'react-icons/pi'
 
 import { NavLink } from 'react-router-dom'
 
-import { LoginButtonContainer, Logo, NavbarContainer, PageTitle, UserProfileImage } from './styles'
+import {
+  LoginButtonContainer,
+  Logo,
+  MenuIcon,
+  NavbarContainer,
+  PageTitle,
+  UserProfileImage,
+} from './styles'
 
 import { useAuthValue } from '../../context/AuthContext'
+import { useMenu } from '../../context/MenuContext'
 import { useAuth } from '../../hooks/useAuth'
 
 const Navbar = () => {
   const { user } = useAuthValue()
   const { logout } = useAuth()
 
+  const { toggleMenu } = useMenu()
+
   return (
     <NavbarContainer>
       <NavLink to='/'>
         <Logo>O</Logo>
       </NavLink>
+      <MenuIcon onClick={toggleMenu}>
+        <PiList size={24} />
+      </MenuIcon>
       <PageTitle>Explorar</PageTitle>
       {!user ? (
         <NavLink to='/login'>

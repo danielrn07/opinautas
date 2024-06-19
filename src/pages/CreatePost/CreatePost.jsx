@@ -55,7 +55,7 @@ const CreatePost = () => {
         handleSubmit(values, resetForm)
       }}
     >
-      <FormContainer>
+      <FormContainer className='container'>
         <Form className='form'>
           <label>
             <span>Título</span>

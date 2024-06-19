@@ -6,11 +6,13 @@ import { useAuth } from './hooks/useAuth'
 
 import { AuthProvider } from './context/AuthContext'
 
+import DrawerMenu from './components/DrawerMenu/DrawerMenu'
 import Navbar from './components/Navbar/Navbar'
+import { MenuProvider } from './context/MenuContext'
+import CreatePost from './pages/CreatePost/CreatePost'
 import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
-import CreatePost from './pages/CreatePost/CreatePost'
 import SinglePost from './pages/SinglePost/SinglePost'
 
 function App() {
@@ -31,18 +33,21 @@ function App() {
 
   return (
     <AuthProvider value={{ user }}>
-      <BrowserRouter>
-        <Navbar />
-        <div className='container'>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
-            <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
-            <Route path='/submit' element={user ? <CreatePost /> : <Navigate to='/login' />} />
-            <Route path='/:id' element={<SinglePost />} />
-          </Routes>
-        </div>
-      </BrowserRouter>
+      <MenuProvider>
+        <BrowserRouter>
+          <Navbar />
+          <div className='drawer-menu-container'>
+            <DrawerMenu />
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/login' element={!user ? <Login /> : <Navigate to='/' />} />
+              <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
+              <Route path='/submit' element={user ? <CreatePost /> : <Navigate to='/login' />} />
+              <Route path='/:id' element={<SinglePost />} />
+            </Routes>
+          </div>
+        </BrowserRouter>
+      </MenuProvider>
     </AuthProvider>
   )
 }

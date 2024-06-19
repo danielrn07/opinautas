@@ -3,7 +3,7 @@ import { PostListContainer } from './styles'
 
 const PostList = ({ posts }) => {
   return (
-    <PostListContainer>
+    <PostListContainer className='container'>
       {posts && posts.map((post) => <Post key={post.id} post={post} />)}
     </PostListContainer>
   )

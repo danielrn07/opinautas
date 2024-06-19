@@ -3,18 +3,39 @@ import styled from 'styled-components'
 export const NavbarContainer = styled.nav`
   display: flex;
   align-items: center;
+  position: sticky;
+  top: 0;
   background-color: rgb(255, 255, 255);
-  padding: 0.8rem 1.6rem;  
+  padding: 0.8rem 1.6rem;
   gap: 1.6rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 0;
 
   @media (min-width: 768px) {
     padding: 1.6rem 3.2rem;
   }
+
+  @media (min-width: 1024px) {
+    z-index: 1;
+  }
 `
 
 export const Logo = styled.div`
+  display: none;
   font-size: 3.2rem;
   font-weight: bold;
+
+  @media (min-width: 1024px) {
+    display: block;
+  }
+`
+
+export const MenuIcon = styled.div`
+  display: block;
+
+  @media (min-width: 1024px) {
+    display: none;
+  }
 `
 
 export const PageTitle = styled.h1`
@@ -50,7 +71,7 @@ export const LoginButtonContainer = styled.div`
 
     svg {
       width: 30px;
-      height: 30px;      
+      height: 30px;
     }
   }
 `

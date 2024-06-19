@@ -137,7 +137,7 @@ const Post = ({ post }) => {
 
           <span>
             <PiChatTeardropDots size={24} />
-            <span>{comments && comments.length}</span>
+            <span>{comments && comments.length || 0}</span>
           </span>
 
           <PiBookmarkSimple className='bookmark-icon' size={24} />

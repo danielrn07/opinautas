@@ -73,8 +73,11 @@ a {
 .container {
   min-height: 60vh;
   width: 100%;
-  padding: 0 1.6rem;
-  margin-bottom: 5em;
+  padding: 1.6rem;
+}
+
+.drawer-menu-container {
+  display: flex;
 }
 
 input,
@@ -118,7 +121,6 @@ button {
 @media screen and (min-width: 1024px) {
   .container {
     width: 100%;
-    max-width: 128rem;
     margin: 0 auto;
   }
 }
