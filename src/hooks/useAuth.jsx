@@ -57,7 +57,6 @@ export const useAuth = () => {
     } catch (error) {
       let systemErrorMessage
       const errorMessage = error.message.toLowerCase()
-      console.log(errorMessage)
 
       if (errorMessage.includes('auth/invalid-credential')) {
         systemErrorMessage = 'E-mail e/ou senha inválidos.'

@@ -15,13 +15,13 @@ const Login = () => {
     password: Yup.string().required('Campo obrigatório.'),
   })
 
-  const handleSubmit = async (values) => {
+  const handleSubmit = async (values, resetForm) => {
     const user = {
       email: values.email,
       password: values.password,
     }
 
-    const res = await login(user)
+    await login(user)
 
     !error && resetForm()
   }

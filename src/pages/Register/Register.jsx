@@ -37,11 +37,14 @@ const Register = () => {
 
     const firebaseUser = await createUser(user)
 
-    await insertDocument({
-      uid: firebaseUser.uid,
-      name: user.name,
-      points: 0,
-    })
+    await insertDocument(
+      {
+        uid: firebaseUser.uid,
+        name: user.name,
+        points: 0,
+      },
+      'user'
+    )
 
     !error && resetForm()
   }

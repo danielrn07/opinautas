@@ -78,13 +78,13 @@ const Post = ({ post }) => {
       return
     }
 
-    await toggleLike(post.id, user.uid)
+    await toggleLike(post.id, user.uid, post.uid)
 
     setLike(!like)
 
     if (dislike) {
       setDislike(false)
-      await toggleDislike(post.id, user.uid)
+      await toggleDislike(post.id, user.uid, post.createdBy)
     }
   }
 
@@ -96,13 +96,13 @@ const Post = ({ post }) => {
       return
     }
 
-    await toggleDislike(post.id, user.uid)
+    await toggleDislike(post.id, user.uid, post.createdBy)
 
     setDislike(!dislike)
 
     if (like) {
       setLike(false)
-      await toggleLike(post.id, user.uid)
+      await toggleLike(post.id, user.uid, post.createdBy)
     }
   }
 

@@ -50,25 +50,50 @@ export const useSubmit = (docCollection) => {
     }
   }
 
-  const insertDocument = async (document) => {
+  const insertDocument = async (document, type) => {
     checkCancelBeforeDispatch({
       type: 'LOADING',
     })
 
     try {
+      const { uid } = document
+
       const newDocument = {
         ...document,
         createdAt: Timestamp.now(),
       }
-      const submittedDocument = await addDoc(collection(database, docCollection), newDocument)
+
+      let submittedDocument
+
+      const userRef = doc(database, 'users', uid)
+
+      if (uid && type === 'user') {
+        await setDoc(userRef, newDocument)
+
+        submittedDocument = {
+          id: userRef.id,
+          ...newDocument,
+        }
+      } else if (uid && type === 'post') {
+        submittedDocument = await addDoc(collection(database, docCollection), newDocument)
+        await updateDoc(userRef, { points: increment(3) })
+      } else if (uid && type === 'comment') {
+        const { postById } = document
+        const createdByRef = await doc(database, 'users', postById)
+
+        submittedDocument = await addDoc(collection(database, docCollection), newDocument)
+
+        if (uid !== postById) {
+          await updateDoc(userRef, { points: increment(2) })
+          await updateDoc(createdByRef, { points: increment(2) })
+        }
+      }
 
       checkCancelBeforeDispatch({
         type: 'SUBMITTED',
         payload: submittedDocument,
       })
-      console.log('enviado', submittedDocument)
     } catch (error) {
-      console.log(error)
       checkCancelBeforeDispatch({
         type: 'ERROR',
         payload: error.message,
@@ -76,7 +101,7 @@ export const useSubmit = (docCollection) => {
     }
   }
 
-  const toggleLike = async (postId, userId) => {
+  const toggleLike = async (postId, userId, createdById) => {
     checkCancelBeforeDispatch({
       type: 'LOADING',
     })
@@ -86,13 +111,25 @@ export const useSubmit = (docCollection) => {
 
     try {
       const likeDoc = await getDoc(likeRef)
+      const userRef = await doc(database, 'users', userId)
+      const createdByRef = await doc(database, 'users', createdById)
 
       if (likeDoc.exists()) {
         await deleteDoc(likeRef)
         await updateDoc(postRef, { likes: increment(-1) })
+
+        if (userId !== createdById) {
+          await updateDoc(userRef, { points: increment(-1) })
+          await updateDoc(createdByRef, { points: increment(-1) })
+        }
       } else {
         await setDoc(likeRef, { userId, createdAt: Timestamp.now() })
         await updateDoc(postRef, { likes: increment(1) })
+
+        if (userId !== createdById) {
+          await updateDoc(userRef, { points: increment(1) })
+          await updateDoc(createdByRef, { points: increment(1) })
+        }
       }
 
       checkCancelBeforeDispatch({ type: 'SUBMITTED' })
@@ -101,7 +138,7 @@ export const useSubmit = (docCollection) => {
     }
   }
 
-  const toggleDislike = async (postId, userId) => {
+  const toggleDislike = async (postId, userId, createdById) => {
     checkCancelBeforeDispatch({
       type: 'LOADING',
     })

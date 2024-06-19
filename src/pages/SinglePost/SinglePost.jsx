@@ -30,12 +30,13 @@ const SinglePost = () => {
     }
 
     const comment = {
-      createdBy: user.displayName,
+      postById: post.uid,
+      displayName: user.displayName,
       text: values.comment,
-      userId: user.uid,
+      uid: user.uid,
     }
 
-    await insertDocument(comment)
+    await insertDocument(comment, 'comment')
 
     !error && resetForm()
   }
@@ -76,7 +77,7 @@ const SinglePost = () => {
           {comments &&
             comments.map((comment, index) => (
               <Comment key={index}>
-                <span>{comment.createdBy}</span>
+                <span>{comment.displayName}</span>
                 <p>{comment.text}</p>
               </Comment>
             ))}

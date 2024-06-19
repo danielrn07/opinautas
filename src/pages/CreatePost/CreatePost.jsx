@@ -28,15 +28,18 @@ const CreatePost = () => {
       tags = values.tags.split(',').map((tag) => tag.trim().toLowerCase())
     }
 
-    insertDocument({
-      title: values.title,
-      description: values.description,
-      tags,
-      uid: user.uid,
-      createdBy: user.displayName,
-      likes: 0,
-      dislikes: 0,
-    })
+    insertDocument(
+      {
+        title: values.title,
+        description: values.description,
+        tags,
+        uid: user.uid,
+        createdBy: user.displayName,
+        likes: 0,
+        dislikes: 0,
+      },
+      'post'
+    )
 
     !error && resetForm()
 
