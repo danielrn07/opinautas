@@ -78,7 +78,7 @@ export const useSubmit = (docCollection) => {
     checkCancelBeforeDispatch({
       type: 'LOADING',
     })
-    
+
     const postRef = doc(database, docCollection, postId)
     const likeRef = doc(postRef, 'likes', userId)
 
@@ -103,7 +103,7 @@ export const useSubmit = (docCollection) => {
     checkCancelBeforeDispatch({
       type: 'LOADING',
     })
-    
+
     const postRef = doc(database, docCollection, postId)
     const dislikeRef = doc(postRef, 'dislikes', userId)
 
@@ -124,9 +124,30 @@ export const useSubmit = (docCollection) => {
     }
   }
 
+  const addComment = async (postId, userId, displayName, comment) => {
+    checkCancelBeforeDispatch({
+      type: 'LOADING',
+    })
+
+    const commentsRef = collection(database, docCollection, postId, 'comments')
+
+    try {
+      await addDoc(commentsRef, {
+        createdBy: displayName,
+        text: comment,
+        userId,
+        createdAt: Timestamp.now(),
+      })
+
+      checkCancelBeforeDispatch({ type: 'SUBMITTED' })
+    } catch (error) {
+      checkCancelBeforeDispatch({ type: 'ERROR', payload: error.message })
+    }
+  }
+
   useEffect(() => {
     return () => setCancelled(true)
   }, [])
 
-  return { insertDocument, toggleLike, toggleDislike, response }
+  return { insertDocument, toggleLike, toggleDislike, addComment, response }
 }

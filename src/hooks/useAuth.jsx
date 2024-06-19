@@ -14,7 +14,6 @@ export const useAuth = () => {
   const [loading, setLoading] = useState(null)
   const [cancelled, setCancelled] = useState(false)
 
-
   const checkIfIsCancelled = () => cancelled
 
   const createUser = async (data) => {

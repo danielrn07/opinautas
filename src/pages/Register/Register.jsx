@@ -35,7 +35,7 @@ const Register = () => {
       password: values.password
     }
 
-    const res = await createUser(user)
+    await createUser(user)
 
     !error && resetForm()
   }

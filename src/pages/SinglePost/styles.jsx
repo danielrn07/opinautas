@@ -4,6 +4,16 @@ export const SinglePostContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  textarea {
+    resize: none;
+  }
 `
 
 export const Input = styled.input`
