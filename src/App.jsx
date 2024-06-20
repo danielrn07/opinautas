@@ -14,6 +14,7 @@ import Home from './pages/Home/Home'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 import SinglePost from './pages/SinglePost/SinglePost'
+import Ranking from './pages/Ranking/Ranking'
 
 function App() {
   const [user, setUser] = useState(undefined)
@@ -44,6 +45,7 @@ function App() {
               <Route path='/register' element={!user ? <Register /> : <Navigate to='/' />} />
               <Route path='/submit' element={user ? <CreatePost /> : <Navigate to='/login' />} />
               <Route path='/:id' element={<SinglePost />} />
+              <Route path='/ranking' element={<Ranking />} />
             </Routes>
           </div>
         </BrowserRouter>

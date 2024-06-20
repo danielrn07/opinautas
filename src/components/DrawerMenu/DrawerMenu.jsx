@@ -2,6 +2,7 @@ import { HiOutlineUser } from 'react-icons/hi2'
 import { PiGithubLogo, PiLinkedinLogo, PiMedal, PiX } from 'react-icons/pi'
 import { useMenu } from '../../context/MenuContext'
 import { DrawerMenuContainer } from './styles'
+import { Link } from 'react-router-dom'
 
 const DrawerMenu = () => {
   const { menuIsOpen, toggleMenu } = useMenu()
@@ -11,14 +12,14 @@ const DrawerMenu = () => {
       <PiX onClick={toggleMenu} className='close-icon' size={24} />
 
       <div className='navigation'>
-        <span>
+        <Link>
           <HiOutlineUser size={24} />
           <p>Perfil</p>
-        </span>
-        <span>
+        </Link>
+        <Link to='/ranking'>
           <PiMedal size={24} />
           <p>Ranking</p>
-        </span>
+        </Link>
       </div>
 
       <div className='social-media'>

@@ -34,13 +34,13 @@ export const DrawerMenuContainer = styled.div`
     justify-content: center;
   }
 
-  .navigation span {
+  .navigation a {
     display: flex;
     align-items: center;
     gap: 0.8rem;
   }
 
-  .navigation span p {
+  .navigation a p {
     font-size: 1.4rem;
     font-weight: 600;
   }
