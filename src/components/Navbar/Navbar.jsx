@@ -19,7 +19,6 @@ import { useAuth } from '../../hooks/useAuth'
 const Navbar = () => {
   const { user } = useAuthValue()
   const { logout } = useAuth()
-
   const { toggleMenu } = useMenu()
 
   return (
