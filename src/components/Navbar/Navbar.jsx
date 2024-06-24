@@ -22,14 +22,15 @@ const Navbar = () => {
   const { toggleMenu } = useMenu()
 
   return (
-    <NavbarContainer>
-      <NavLink to='/'>
-        <Logo>O</Logo>
-      </NavLink>
+    <NavbarContainer>      
       <MenuIcon onClick={toggleMenu}>
         <PiList size={24} />
       </MenuIcon>
-      <PageTitle>Explorar</PageTitle>
+
+      <NavLink to='/' className='logo-container'>
+        <Logo>Opinautas</Logo>
+      </NavLink>
+
       {!user ? (
         <NavLink to='/login'>
           <LoginButtonContainer>

@@ -11,6 +11,10 @@ export const NavbarContainer = styled.nav`
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   z-index: 0;
 
+  .logo-container {
+    flex-grow: 1;
+  }
+
   @media (min-width: 768px) {
     padding: 1.6rem 3.2rem;
   }
@@ -24,14 +28,16 @@ export const Logo = styled.div`
   display: none;
   font-size: 3.2rem;
   font-weight: bold;
+  flex-grow: 1;
 
   @media (min-width: 1024px) {
-    display: block;
+    display: flex;
   }
 `
 
 export const MenuIcon = styled.div`
   display: block;
+  flex-grow: 1;
 
   @media (min-width: 1024px) {
     display: none;

@@ -16,6 +16,7 @@ import Profile from './pages/Profile/Profile'
 import Ranking from './pages/Ranking/Ranking'
 import Register from './pages/Register/Register'
 import SinglePost from './pages/SinglePost/SinglePost'
+import Search from './pages/Search/Search'
 
 function App() {
   const [user, setUser] = useState(undefined)
@@ -48,6 +49,7 @@ function App() {
               <Route path='/:id' element={<SinglePost />} />
               <Route path='/profile' element={user ? <Profile /> : <Navigate to='/login' />} />
               <Route path='/ranking' element={<Ranking />} />
+              <Route path='/search' element={<Search />} />
             </Routes>
           </div>
         </BrowserRouter>
